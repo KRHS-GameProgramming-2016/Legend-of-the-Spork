@@ -55,8 +55,14 @@ class Level():
 
         for y,line in enumerate(lines):
             for x,c in enumerate(line):
-                if c in "" :       #levels of dirt
-                    self.tiles += [Tile(c,
+                if c in "`" :       #Tiles
+                    self.tiles += [Tiles("grass",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
+                if c in "=" :       #Tiles
+                    self.tiles += [Tiles("path",
                                        [x*self.tileSize + self.tileSize/2,
                                         y*self.tileSize + self.tileSize/2],
                                        self.tileSize)
