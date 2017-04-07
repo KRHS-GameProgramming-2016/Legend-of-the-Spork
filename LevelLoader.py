@@ -55,14 +55,38 @@ class Level():
 
         for y,line in enumerate(lines):
             for x,c in enumerate(line):
-                if c in "`" :       #Tiles
+                if c in "`" :       #Grass
                     self.tiles += [Tiles("grass",
                                        [x*self.tileSize + self.tileSize/2,
                                         y*self.tileSize + self.tileSize/2],
                                        self.tileSize)
                                   ]
-                if c in "=" :       #Tiles
+                if c in "=" :       #Path
                     self.tiles += [Tiles("path",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
+                if c in '"' :       #Sand
+                    self.tiles += [Tiles("sand",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
+                if c in "~" :       #River
+                    self.impassable += [Impassables("river",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
+                if c in "~" :       #River
+                    self.impassable += [Impassables("river",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
+                if c in "*" :       #Boulder
+                    self.impassable += [Impassables("boulder",
                                        [x*self.tileSize + self.tileSize/2,
                                         y*self.tileSize + self.tileSize/2],
                                        self.tileSize)

@@ -1,7 +1,7 @@
 import pygame, sys, math, time
 
 class Player():
-    def __init__(self, size = [64, 64], maxSpeed = 5, speed = [0, 0], pos = [0, 64]:
+    def __init__(self, size = [64, 64], maxSpeed = 5, speed = [0, 0], pos = [0, 64], self.containers):
         self.imageLeft  = pygame.image.load(
         self.imageRight = pygame.image.load(
         self.imageUp = pygame.image.load(
