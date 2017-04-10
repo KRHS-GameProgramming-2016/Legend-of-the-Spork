@@ -1,11 +1,12 @@
 import pygame, sys, math, time
 
-class Player():
-    def __init__(self, size = [64, 64], maxSpeed = 5, speed = [0, 0], pos = [0, 64], self.containers):
-        self.imageLeft  = pygame.image.load(""
-        self.imageRight = pygame.image.load(""
-        self.imageUp = pygame.image.load(""
-        self.imageDown = pygame.image.load(""
+class Player(pygame.sprite.Sprite):
+    def __init__(self, size = [64, 64], maxSpeed = 5, speed = [0, 0], pos = [0, 64]):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.imageLeft  = pygame.image.load("")
+        self.imageRight = pygame.image.load("")
+        self.imageUp = pygame.image.load("")
+        self.imageDown = pygame.image.load("")
         #self.imagesLeft = pygame.image.load(
         #self.imagesRight = pygame.image.load(
         #self.imagesUp = pygame.image.load(
@@ -36,17 +37,17 @@ class Player():
         #self.blinkFrame = 0
     def animate(self):
         if self.prevState != self.state:
-            if self.state = "right":
-                self.image = self.imageRight
+            if self.state == "right":
+                self.image == self.imageRight
                 #self.image = self.imagesRight
-            elif self.state = "left":
-                self.image = self.imageLeft
+            elif self.state == "left":
+                self.image == self.imageLeft
                 #self.image = self.imagesLeft
-            elif self.state = "up":
-                self.image = self.imageUp
+            elif self.state == "up":
+                self.image == self.imageUp
                 #self.image = self.imagesUp
-            elif self.state = "down":
-                self.image = self.imageDown
+            elif self.state == "down":
+                self.image == self.imageDown
                 #self.image = self.imagesDown
     def move(self):
         self.didBounceX = False
@@ -57,25 +58,25 @@ class Player():
     def direction(direction):
         return direction
     def go(self, direction):
-        if direction = "right":
+        if direction == "right":
             self.speedx = self.speedx
             self.speedy = 0
-            self.state = "right"
+            self.state == "right"
             self.move()
-        if direction = "left":
-            self.speedx = -self.speedx
+        if direction == "left":
+            self.speedx == -self.speedx
             self.speedy = 0
-            self.state = "left"
+            self.state == "left"
             self.move()
-        if direction = "up":
+        if direction == "up":
             self.speedx = 0
             self.speedy = self.speedy
-            self.state = "up"
+            self.state == "up"
             self.move()
-        if direction = "down":
+        if direction == "down":
             self.speedx = 0
             self.speedy = -self.speedy
-            self.state = "down"
+            self.state == "down"
             self.move()
             
         if direction == "stop up":
