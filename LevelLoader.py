@@ -91,6 +91,18 @@ class Level():
                                         y*self.tileSize + self.tileSize/2],
                                        self.tileSize)
                                   ]
+                if c in "-" :       #Tree
+                    self.backgrounditems += [BackgroundItems("bench",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
+                if c in "&" :       #Boulder
+                    self.impassable += [Impassables("tree",
+                                       [x*self.tileSize + self.tileSize/2,
+                                        y*self.tileSize + self.tileSize/2],
+                                       self.tileSize)
+                                  ]
 #Minimun speed = 1 | max = 64
 
 
