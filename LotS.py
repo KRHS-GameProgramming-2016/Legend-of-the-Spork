@@ -20,8 +20,20 @@ height = 640
 size = width, height
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
-level = Level("World1.lvl")
-BG = Background(size)
+level = Level("World1")
+
+all = pygame.sprite.OrderedUpdates()
+
+players = pygame.sprite.Group()
+bugs = pygame.sprite.Group()
+wolfs = pygame.sprite.Group()
+bandits = pygame.sprite.Group()
+trolls = pygame.sprite.Group()
+bosses = pygame.sprite.Group()
+impassables = pygame.sprite.Group()
+backgrounditems = pygame.sprite.Group()
+tiles = pygame.sprite.Group()
+
 
 while True:
     for event in pygame.event.get():
@@ -50,11 +62,9 @@ while True:
             if event.key == pygame.K_LEFT:
                 player.go("stop left")
                 
-    player.screenCollide(size)
+    all.update(size)
     
     bgColor = r,g,b = 0,0,0
     screen.fill(bgColor)
-    screen.blit(BG.image, BG.rect)
-    screen.blit(player.image, player.rect)
     pygame.display.flip()
     clock.tick(60)
