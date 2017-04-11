@@ -1,7 +1,8 @@
 import pygame, sys, math
 
 class Impassables(pygame.sprite.Sprite):
-    def __init__(self, kind, pos=[0,0], size=None):
+    def __init__(self, impass, pos=[0,0], size=None):
+        self.impass = impass
         pygame.sprite.Sprite.__init__(self, self.containers)
         if self.impass == "river":
             self.image = pygame.image.load("Res/ImpassableObj/BrightWater.png")

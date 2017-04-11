@@ -1,15 +1,16 @@
 import sys, math, pygame, random
 from Player import *
 from Bug import *
-from Wolf import *
-from Boss import *
+#from Wolf import *
+#from Troll import *
+#from Boss import *
 from LevelLoader import *
-from Spork import *
-from HUD import *
+#from Spork import *
+#from HUD import *
 from Tiles import *
 from Impassable import *
-from Shop import *
-from Title import *
+#from Shop import *
+#from Title import *
 from BackgroundItems import *
 pygame.init()
 
@@ -20,20 +21,31 @@ height = 640
 size = width, height
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
-level = Level("World1")
+
 
 all = pygame.sprite.OrderedUpdates()
 
 players = pygame.sprite.Group()
 bugs = pygame.sprite.Group()
-wolfs = pygame.sprite.Group()
-bandits = pygame.sprite.Group()
-trolls = pygame.sprite.Group()
-bosses = pygame.sprite.Group()
+#wolfs = pygame.sprite.Group()
+#bandits = pygame.sprite.Group()
+#trolls = pygame.sprite.Group()
+#bosss = pygame.sprite.Group()
 impassables = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 
+Player.containers = all, players
+Bug.containers = all, bugs
+#Wolf.containers = all, wolfs
+#Bandit.containers = all, bandits
+#Troll.containers = all, trolls
+#Boss.containers = all, bosss
+Impassables.containers = all, impassables
+BackgroundItems.containers = all, backgrounditems
+Tiles.containers = all, tiles
+
+level = Level("World1")
 
 while True:
     for event in pygame.event.get():
@@ -66,5 +78,7 @@ while True:
     
     bgColor = r,g,b = 0,0,0
     screen.fill(bgColor)
+    dirty = all.draw(screen)
+    pygame.display.update(dirty)
     pygame.display.flip()
     clock.tick(60)
