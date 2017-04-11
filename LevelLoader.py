@@ -13,21 +13,32 @@ from BackgroundItems import *
 
 class Level():
     def __init__(self, levelFile, levelNumber=1, tileSize=64):
-        self.dirts = []
+        self.tile = []
         self.players = []
-        self.enemies = []
-        self.playerSpawns = []
+        self.bugs = []
+        self.wolfs = []
+        self.bandits = []
+        self.trolls = []
+        self.bosss = []
+        self.impassables = []
+        self.backgrounditems = []
         self.tileSize = tileSize
 
         self.loadLevel(levelFile, levelNumber)
 
     def unloadLevel(self):
-        self.dirts = []
+        self.tiles = []
         self.player = []
-        self.enemySpawn = []
+        self.bugSpawn = []
+        self.wolfSpawn = []
+        self.banditSpawn = []
+        self.trollSpawn = []
+        self.bossSpawn = []
+        self.impassableSpawn = []
+        self.backgrounditemSpawn = []
 
     def loadLevel(self, levelFile, levelNumber):
-        f = open("Resources/Levels/"+levelFile)
+        f = open("Res/World/"+levelFile+".lvl")
         lines = f.readlines()
         f.close()
 
@@ -39,15 +50,6 @@ class Level():
                     newline += c
             newlines += [newline]
 
-        lines = newlines
-
-        startIndex = lines.index(str(levelNumber))+1
-        endIndex = startIndex + 10
-
-        newlines = []
-        for line in range(startIndex, endIndex):
-            #print lines[line]
-            newlines += [lines[line]]
         lines = newlines
 
         for line in lines:
@@ -73,12 +75,25 @@ class Level():
                                         y*self.tileSize + self.tileSize/2],
                                        self.tileSize)
                                   ]
-                if c in "~" :       #River
-                    self.impassable += [Impassables("river",
-                                       [x*self.tileSize + self.tileSize/2,
-                                        y*self.tileSize + self.tileSize/2],
-                                       self.tileSize)
-                                  ]
+        f = open("Res/World/"+levelFile+".tng")
+        lines = f.readlines()
+        f.close()
+
+        newlines = []
+        for line in lines:
+            newline = ""
+            for c in line:
+                if c != '\n':
+                    newline += c
+            newlines += [newline]
+
+        lines = newlines
+
+        for line in lines:
+            print line
+
+        for y,line in enumerate(lines):
+            for x,c in enumerate(line):
                 if c in "~" :       #River
                     self.impassable += [Impassables("river",
                                        [x*self.tileSize + self.tileSize/2,
@@ -87,18 +102,6 @@ class Level():
                                   ]
                 if c in "*" :       #Boulder
                     self.impassable += [Impassables("boulder",
-                                       [x*self.tileSize + self.tileSize/2,
-                                        y*self.tileSize + self.tileSize/2],
-                                       self.tileSize)
-                                  ]
-                if c in "-" :       #Bench
-                    self.backgrounditems += [BackgroundItems("bench",
-                                       [x*self.tileSize + self.tileSize/2,
-                                        y*self.tileSize + self.tileSize/2],
-                                       self.tileSize)
-                                  ]
-                if c in "&" :       #Tree
-                    self.backgrounditems += [BackgroundItems("tree",
                                        [x*self.tileSize + self.tileSize/2,
                                         y*self.tileSize + self.tileSize/2],
                                        self.tileSize)
