@@ -46,7 +46,6 @@ BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 
 level = Level("World1")
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()

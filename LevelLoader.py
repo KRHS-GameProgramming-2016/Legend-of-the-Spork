@@ -15,7 +15,7 @@ class Level():
     def __init__(self, levelFile, levelNumber=1, tileSize=64):
         self.tileSize = 64
         self.loadLevel(levelFile, levelNumber)
-        
+
 
     def unloadLevel(self):
         pass
@@ -24,12 +24,9 @@ class Level():
         f = open("Res/World/"+levelFile+".lvl")
         lines = f.readlines()
         f.close()
-        
-        print "Level loading..."
-        print len(lines)
+
         for line in lines:
             print line
-        print ">>>>>>>>>>>>>>"
 
         newlines = []
         for line in lines:
@@ -41,7 +38,7 @@ class Level():
 
         lines = newlines
 
-        
+
 
         for y,line in enumerate(lines):
             for x,c in enumerate(line):
@@ -94,31 +91,31 @@ class Level():
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
 
-                #if c in "*" :       #Bug
+                if c in "q" :       #Bug
+                    Bug(Bug,
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2],
+                           self.tileSize)
+
+                #if c in "w" :       #Wolf
                     #Impassables("boulder",
                            #[x*self.tileSize + self.tileSize/2,
                             #y*self.tileSize + self.tileSize/2],
                            #self.tileSize)
 
-                #if c in "*" :       #Wolf
+                #if c in "e" :       #Bandit
                     #Impassables("boulder",
                            #[x*self.tileSize + self.tileSize/2,
                             #y*self.tileSize + self.tileSize/2],
                            #self.tileSize)
 
-                #if c in "*" :       #Bandit
+                #if c in "r" :       #Troll
                     #Impassables("boulder",
                            #[x*self.tileSize + self.tileSize/2,
                             #y*self.tileSize + self.tileSize/2],
                            #self.tileSize)
 
-                #if c in "*" :       #Troll
-                    #Impassables("boulder",
-                           #[x*self.tileSize + self.tileSize/2,
-                            #y*self.tileSize + self.tileSize/2],
-                           #self.tileSize)
-
-                #if c in "*" :       #Boss
+                #if c in "t" :       #Boss
                     #[Impassables("boulder",
                            #[x*self.tileSize + self.tileSize/2,
                             #y*self.tileSize + self.tileSize/2],
