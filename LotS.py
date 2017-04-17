@@ -25,7 +25,7 @@ bgColor = 0,0,0
 
 all = pygame.sprite.OrderedUpdates()
 
-players = pygame.sprite.Group()
+#players = pygame.sprite.Group()
 bugs = pygame.sprite.Group()
 #wolfs = pygame.sprite.Group()
 #bandits = pygame.sprite.Group()
@@ -35,7 +35,7 @@ impassables = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 
-Player.containers = all, players
+#Player.containers = all, players
 Bug.containers = all, bugs
 #Wolf.containers = all, wolfs
 #Bandit.containers = all, bandits
@@ -45,7 +45,15 @@ Impassables.containers = all, impassables
 BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 
+#player = Player()
+bug = Bug()
+#wolf = Wolf()
+#bandit = Bandit()
+#troll = Troll()
+#boss = Boss()
+
 level = Level("World1")
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
@@ -58,10 +66,6 @@ while True:
                 player.go("right")
             if event.key == pygame.K_LEFT:
                 player.go("left")
-            if event.key == pygame.K_d:
-                player.dig()
-            if event.key == pygame.K_s:
-                playerBullets += [Playerfire(player.state, player.rect.center)]
             
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:

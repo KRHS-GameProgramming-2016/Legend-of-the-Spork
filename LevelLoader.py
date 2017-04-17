@@ -59,6 +59,11 @@ class Level():
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
+                if c in "~" :       #River
+                    Impassables("river",
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2],
+                           self.tileSize)
 
         f = open("Res/World/"+levelFile+".tng")
         lines = f.readlines()
@@ -79,24 +84,18 @@ class Level():
 
         for y,line in enumerate(lines):
             for x,c in enumerate(line):
-                if c in "~" :       #River
-                    Impassables("river",
+
+
+                if c in "q" :       #Bug
+                    Bug(1,
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
-
                 if c in "*" :       #Boulder
                     Impassables("boulder",
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
-
-                if c in "q" :       #Bug
-                    Bug(Bug,
-                           [x*self.tileSize + self.tileSize/2,
-                            y*self.tileSize + self.tileSize/2],
-                           self.tileSize)
-
                 #if c in "w" :       #Wolf
                     #Impassables("boulder",
                            #[x*self.tileSize + self.tileSize/2,

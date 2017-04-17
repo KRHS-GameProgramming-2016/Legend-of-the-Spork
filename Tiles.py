@@ -5,7 +5,7 @@ class Tiles(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.version = version
         if self.version == "grass":
-            self.image = pygame.image.load("Res/Tiles/Grass.png")
+            self.image = pygame.image.load("Res/Tiles/DarkGrass.png")
         elif self.version == "path":
             self.image = pygame.image.load("Res/Tiles/StonePath.png")
         elif self.version == "sand":

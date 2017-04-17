@@ -5,7 +5,7 @@ class Impassables(pygame.sprite.Sprite):
         self.impass = impass
         pygame.sprite.Sprite.__init__(self, self.containers)
         if self.impass == "river":
-            self.image = pygame.image.load("Res/ImpassableObj/BrightWater.png")
+            self.image = pygame.image.load("Res/ImpassableObj/Water.png")
         elif self.impass == "boulder":
             self.image = pygame.image.load("Res/ImpassableObj/Boulder.png")
         if size:

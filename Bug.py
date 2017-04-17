@@ -5,50 +5,38 @@ class Bug(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.size = size
         self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug3.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug4.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug5.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug6.png"), [self.size,self.size])]
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
         self.imagesRight = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug3.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug4.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug5.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug6.png"), [self.size,self.size])]
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
         self.imagesUp = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug3.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug4.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug5.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug6.png"), [self.size,self.size])]
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
         self.imagesDown = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug3.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug4.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug5.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug6.png"), [self.size,self.size])]
-        
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
+
         self.maxSpeed = speed
-        
+
         self.didBounceX = False
         self.didBounceY = False
-        
+
         self.state = "right"
         self.prevState = "right"
-        
+
         self.frame = 0
         self.animationTimer = 0
-        self.animationTimerMax = .3 * 60 #seconds * 60 fps
+        self.animationTimerMax = 5#.3 * 60 #seconds * 60 fps
         self.images = self.imagesRight
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = pos)
         self.maxFrame = len(self.images) - 1
-        
-        
-        
+
+        self.decideDirection()
         self.hit = False
-        
+    
+    def update(self, screenSize):
+        self.move()
+        self.animate()
+        self.screenCollide(screenSize)
+    
     def move(self):
         self.didBounceX = False
         self.didBounceY = False
@@ -60,7 +48,8 @@ class Bug(pygame.sprite.Sprite):
         else:     #moving up/down
             if self.rect.top % self.size == 0:
                 self.decideDirection()
-        self.animate()
+        
+    
     def decideDirection(self):
         d = random.randint(0,3)
         if d == 0:
@@ -79,6 +68,7 @@ class Bug(pygame.sprite.Sprite):
             self.speedx = -self.maxSpeed
             self.speedy = 0
             self.state = "left"
+    
     def animate(self):
         if self.prevState != self.state:
             self.prevState = self.state
@@ -96,6 +86,7 @@ class Bug(pygame.sprite.Sprite):
 
         if self.animationTimer < self.animationTimerMax:
             self.animationTimer += 1
+            
         else:
             self.animationTimer = 0
             if self.frame < self.maxFrame:
@@ -103,13 +94,17 @@ class Bug(pygame.sprite.Sprite):
             else:
                 self.frame = 0
             self.image = self.images[self.frame]
+    
     def screenCollide(self, screenSize):
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]
         if self.rect.top < 0 or self.rect.bottom > screenHeight:
             self.speedy = 0
+            self.decideDirection()
         if self.rect.left < 0 or self.rect.right > screenHeight:
             self.speedx = 0
+            self.decideDirection()
+    
     def dist(self, pt):
         x = pt[0] - self.rect.right
         y = pt[1] - self.rect.bottom
