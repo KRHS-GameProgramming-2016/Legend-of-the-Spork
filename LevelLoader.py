@@ -84,8 +84,13 @@ class Level():
 
         for y,line in enumerate(lines):
             for x,c in enumerate(line):
-
-
+                
+                
+                #if c in "p":       #Player
+                    #Player(self.tileSize, 5
+                            #[x*self.tileSize + self.tileSize/2,
+                            #y*self.tileSize + self.tileSize/2],
+                           #self.tileSize)
                 if c in "q" :       #Bug
                     Bug(1,
                            [x*self.tileSize + self.tileSize/2,
