@@ -1,7 +1,7 @@
 import pygame, sys, math, time
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, size = [64, 64], maxSpeed = 5, speed = [0, 0], pos = [0, 64]):
+    def __init__(self, speed=0, maxSpeed = 5, pos=[0,0], size = 64):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.imageLeft  = pygame.image.load("Res/Player/Player side.png")
         self.imageRight = pygame.image.load("Res/Player/Player side Right.png")
@@ -19,16 +19,16 @@ class Player(pygame.sprite.Sprite):
         self.image = self.imageRight
         self.rect = self.image.get_rect()
         
-        self.speedx = speed[0]
-        self.speedy = speed[1]
+        self.speedx = speed
+        self.speedy = speed
         self.speed = [self.speedx, self.speedy]
         self.didBounceX = False
         self.didBounceY = False
         self.pos = [self.rect.left, self.rect.top]
+        self.maxSpeed = maxSpeed
         self.lives = 5
         self.hit = False
-        self.health = 3
-        self.maxSpeed = maxSpeed 
+        self.health = 3 
         self.living = True
         
         #self.frame = 0
