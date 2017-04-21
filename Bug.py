@@ -6,8 +6,8 @@ class Bug(pygame.sprite.Sprite):
         self.size = size
         self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
                            pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
-        self.imagesRight = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
+        self.imagesRight = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1R.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2R.png"), [self.size,self.size])]
         self.imagesUp = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
                            pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
         self.imagesDown = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
@@ -31,12 +31,13 @@ class Bug(pygame.sprite.Sprite):
 
         self.decideDirection()
         self.hit = False
-    
+        self.animate()
+
     def update(self, screenSize):
         self.move()
         self.animate()
         self.screenCollide(screenSize)
-    
+
     def move(self):
         self.didBounceX = False
         self.didBounceY = False
@@ -48,8 +49,8 @@ class Bug(pygame.sprite.Sprite):
         else:     #moving up/down
             if self.rect.top % self.size == 0:
                 self.decideDirection()
-        
-    
+
+
     def decideDirection(self):
         d = random.randint(0,3)
         if d == 0:
@@ -68,7 +69,7 @@ class Bug(pygame.sprite.Sprite):
             self.speedx = -self.maxSpeed
             self.speedy = 0
             self.state = "left"
-    
+
     def animate(self):
         if self.prevState != self.state:
             self.prevState = self.state
@@ -86,7 +87,7 @@ class Bug(pygame.sprite.Sprite):
 
         if self.animationTimer < self.animationTimerMax:
             self.animationTimer += 1
-            
+
         else:
             self.animationTimer = 0
             if self.frame < self.maxFrame:
@@ -94,7 +95,7 @@ class Bug(pygame.sprite.Sprite):
             else:
                 self.frame = 0
             self.image = self.images[self.frame]
-    
+
     def screenCollide(self, screenSize):
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]
@@ -104,7 +105,15 @@ class Bug(pygame.sprite.Sprite):
         if self.rect.left < 0 or self.rect.right > screenHeight:
             self.speedx = 0
             self.decideDirection()
-    
+
+    def impassableCollide(self, other):
+        if not self.didBounceX: 
+            self.speedx = -self.speedx
+            self.didBounceX = True
+        if not self.didBounceY:
+            self.speedy = -self.speedy
+            self.didBounceY = True
+
     def dist(self, pt):
         x = pt[0] - self.rect.right
         y = pt[1] - self.rect.bottom

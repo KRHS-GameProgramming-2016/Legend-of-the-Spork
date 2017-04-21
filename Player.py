@@ -1,12 +1,12 @@
 import pygame, sys, math, time
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, speed=0, maxSpeed = 5, pos=[0,0], size = 64):
+    def __init__(self,  size = 64, speed=0, maxSpeed = 5, pos=[0,0]):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.imageLeft  = pygame.image.load("Res/Player/Player side.png")
-        self.imageRight = pygame.image.load("Res/Player/Player side Right.png")
-        self.imageUp = pygame.image.load("Res/Player/Player Back.png")
-        self.imageDown = pygame.image.load("Res/Player/Player.png")
+        self.imageLeft  = pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [size, size])
+        self.imageRight = pygame.transform.scale(pygame.image.load("Res/Player/Player side Right.png"), [size, size])
+        self.imageUp = pygame.transform.scale(pygame.image.load("Res/Player/Player Back.png"), [size, size])
+        self.imageDown = pygame.transform.scale(pygame.image.load("Res/Player/Player.png"), [size, size])
         #self.imagesLeft = pygame.image.load(
         #self.imagesRight = pygame.image.load(
         #self.imagesUp = pygame.image.load(

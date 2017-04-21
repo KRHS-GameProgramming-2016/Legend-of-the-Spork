@@ -18,8 +18,8 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-width = 768
-height = 640
+width = 1000
+height = 850 # 700 + 150 for HUD stuff. 
 size = width, height
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
@@ -113,6 +113,8 @@ while True:
         
         playerHitsImpassable = pygame.sprite.spritecollide(player, impassables, True)
         playerHitsBackgroundItems = pygame.sprite.spritecollide(player, backgrounditems, False)
+        bugsHitsImpassable = pygame.sprite.groupcollide(bugs, impassables, False, False)
+
         
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
