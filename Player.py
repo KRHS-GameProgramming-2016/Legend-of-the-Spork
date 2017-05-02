@@ -18,14 +18,16 @@ class Player(pygame.sprite.Sprite):
         self.imageState = "right"
         self.image = self.imageRight
         self.rect = self.image.get_rect()
+
         
-        self.speedx = speed
-        self.speedy = speed
+        self.speedx = 0
+        self.speedy = 0
+        self.maxSpeed = maxSpeed
         self.speed = [self.speedx, self.speedy]
         self.didBounceX = False
         self.didBounceY = False
         self.pos = [self.rect.left, self.rect.top]
-        self.maxSpeed = maxSpeed
+
         self.lives = 5
         self.hit = False
         self.health = 3 
@@ -36,6 +38,15 @@ class Player(pygame.sprite.Sprite):
         #self.animationTimer = 0
         #self.animationTimerMax = .2 * 60 #seconds * 60 fps
         #self.blinkFrame = 0
+        
+        self.animate()
+        self.direction()
+
+    def update(self, screenSize):
+        self.move()
+        self.animate()
+        self.screenCollide(screenSize)
+
     def animate(self):
         if self.prevState != self.state:
             if self.state == "right":
@@ -50,33 +61,36 @@ class Player(pygame.sprite.Sprite):
             elif self.state == "down":
                 self.image == self.imageDown
                 #self.image = self.imagesDown
+
     def move(self):
         self.didBounceX = False
         self.didBounceY = False
         self.speed = [self.speedx, self.speedy]
         self.rect = self.rect.move(self.speed)
         self.animate()
+        
     def direction(direction):
         return direction
+        
     def go(self, direction):
         if direction == "right":
-            self.speedx = self.speedx
+            self.speedx = self.maxSpeed
             self.speedy = 0
             self.state == "right"
             self.move()
         if direction == "left":
-            self.speedx == -self.speedx
+            self.speedx == -self.maxSpeed
             self.speedy = 0
             self.state == "left"
             self.move()
         if direction == "up":
             self.speedx = 0
-            self.speedy = self.speedy
+            self.speedy = self.maxSpeed
             self.state == "up"
             self.move()
         if direction == "down":
             self.speedx = 0
-            self.speedy = -self.speedy
+            self.speedy = -self.maxSpeed
             self.state == "down"
             self.move()
             
