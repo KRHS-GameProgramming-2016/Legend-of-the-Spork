@@ -88,9 +88,9 @@ class Level():
                 
                 
                 if c in "p":       #Player
-                    Player(64, 1, 
-                        [x*self.tileSize + self.tileSize/.2,
-                         y*self.tileSize + self.tileSize/.2])
+                    Player(64, 0, 5, 
+                        [x*self.tileSize + self.tileSize/2,
+                         y*self.tileSize + self.tileSize/2])
                 if c in "q" :       #Bug
                     Bug(1,
                            [x*self.tileSize + self.tileSize/2,

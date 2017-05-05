@@ -52,8 +52,6 @@ BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
 
-player = Player()
-bug = Bug()
 #wolf = Wolf()
 #bandit = Bandit()
 #troll = Troll()
@@ -104,6 +102,7 @@ while True:
     for s in all.sprites():
         s.kill()
     level = Level("World1")
+    player = players.sprites()[0]
     while player.living:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
@@ -116,7 +115,6 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_LEFT:
                     player.go("left")
-                print "player moving!"
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:

@@ -12,102 +12,94 @@ class Player(pygame.sprite.Sprite):
         #self.imagesUp = pygame.image.load(
         #self.imagesDown = pygame.image.load(
         self.size = size
-        
+
         self.state = "right"
         self.prevState = "right"
         self.imageState = "right"
         self.image = self.imageRight
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center = pos)
 
-        
+
         self.speedx = 0
         self.speedy = 0
         self.maxSpeed = maxSpeed
         self.speed = [self.speedx, self.speedy]
         self.didBounceX = False
         self.didBounceY = False
-        self.pos = [self.rect.left, self.rect.top]
 
         self.lives = 5
         self.hit = False
-        self.health = 3 
+        self.health = 3
         self.living = True
-        
+
         #self.frame = 0
         #self.maxFrame = len(self.images) - 1
         #self.animationTimer = 0
         #self.animationTimerMax = .2 * 60 #seconds * 60 fps
         #self.blinkFrame = 0
-        
+
         self.animate()
-        self.direction()
 
     def update(self, screenSize):
         self.move()
-        self.animate()
         self.screenCollide(screenSize)
+    
+    def move(self):
+        self.didBounceX = False
+        self.didBounceY = False
+        
+        self.speed = [self.speedx, self.speedy]
+        self.rect = self.rect.move(self.speed)
+        self.animate()
+
+
 
     def animate(self):
         if self.prevState != self.state:
             if self.state == "right":
                 self.image == self.imageRight
-                #self.image = self.imagesRight
+                print "right"
             elif self.state == "left":
                 self.image == self.imageLeft
-                #self.image = self.imagesLeft
+                print "left"
             elif self.state == "up":
                 self.image == self.imageUp
-                #self.image = self.imagesUp
+                print "up"
             elif self.state == "down":
                 self.image == self.imageDown
-                #self.image = self.imagesDown
+                print "down"
 
-    def move(self):
-        self.didBounceX = False
-        self.didBounceY = False
-        self.speed = [self.speedx, self.speedy]
-        self.rect = self.rect.move(self.speed)
-        self.animate()
-        
-    def direction(direction):
-        return direction
-        
     def go(self, direction):
         if direction == "right":
             self.speedx = self.maxSpeed
             self.speedy = 0
-            self.state == "right"
-            self.move()
-        if direction == "left":
-            self.speedx == -self.maxSpeed
+            self.state = "right"
+        elif direction == "left":
+            self.speedx = -self.maxSpeed
             self.speedy = 0
-            self.state == "left"
-            self.move()
-        if direction == "up":
-            self.speedx = 0
-            self.speedy = self.maxSpeed
-            self.state == "up"
-            self.move()
-        if direction == "down":
+            self.state = "left"
+        elif direction == "up":
             self.speedx = 0
             self.speedy = -self.maxSpeed
-            self.state == "down"
-            self.move()
-            
-        if direction == "stop up":
+            self.state = "up"
+        elif direction == "down":
+            self.speedx = 0
+            self.speedy = self.maxSpeed
+            self.state = "down"
+
+        elif direction == "stop up":
             self.speedy = 0
             self.prevState = "up"
-        if direction == "stop down":
+        elif direction == "stop down":
             self.speedy = 0
             self.prevState = "down"
-        if direction == "stop left":
+        elif direction == "stop left":
             self.speedx = 0
             self.prevState = "left"
-        if direction == "stop right":
+        elif direction == "stop right":
             self.speedx = 0
             self.prevState = "right"
-            
-            
+
     def dist(self, pt):
         x = pt[0] - self.rect.right
         y = pt[1] - self.rect.bottom
@@ -118,7 +110,7 @@ class Player(pygame.sprite.Sprite):
             y += -64
             y += y
         return [x, y]
-        
+
     def screenCollide(self, screenSize):
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]
