@@ -1,7 +1,7 @@
 import pygame, sys, math, time
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,  size = 64, speed=0, maxSpeed = 5, pos=[0,0]):
+    def __init__(self,  size = 64, speed = 0, maxSpeed = 5, pos = [0,0]):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.imageLeft  = pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [size, size])
         self.imageRight = pygame.transform.scale(pygame.image.load("Res/Player/Player side Right.png"), [size, size])
@@ -15,7 +15,6 @@ class Player(pygame.sprite.Sprite):
 
         self.state = "right"
         self.prevState = "right"
-        self.imageState = "right"
         self.image = self.imageRight
         self.rect = self.image.get_rect(center = pos)
 
@@ -27,10 +26,10 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = False
         self.didBounceY = False
 
-        self.lives = 5
         self.hit = False
         self.health = 3
         self.living = True
+        self.attacking = False
 
         #self.frame = 0
         #self.maxFrame = len(self.images) - 1
@@ -42,32 +41,25 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, screenSize):
         self.move()
+        self.animate()
         self.screenCollide(screenSize)
-    
+
     def move(self):
         self.didBounceX = False
         self.didBounceY = False
-        
         self.speed = [self.speedx, self.speedy]
         self.rect = self.rect.move(self.speed)
-        self.animate()
-
-
 
     def animate(self):
         if self.prevState != self.state:
             if self.state == "right":
-                self.image == self.imageRight
-                print "right"
+                self.image = self.imageRight
             elif self.state == "left":
-                self.image == self.imageLeft
-                print "left"
+                self.image = self.imageLeft
             elif self.state == "up":
-                self.image == self.imageUp
-                print "up"
+                self.image = self.imageUp
             elif self.state == "down":
-                self.image == self.imageDown
-                print "down"
+                self.image = self.imageDown
 
     def go(self, direction):
         if direction == "right":
@@ -118,3 +110,36 @@ class Player(pygame.sprite.Sprite):
             self.speedy = 0
         if self.rect.left < 0 or self.rect.right > screenHeight:
             self.speedx = 0
+
+    def impassableCollide(self, other):
+        self.speedx = -self.speedx
+        self.speedy = -self.speedy
+        self.move()
+        self.speedx = 0
+        self.didBounceX = True
+        self.speedy = 0
+        self.didBounceY = True
+        
+    def shopCollide(self, other):
+        self.speedx = -self.speedx
+        self.speedy = -self.speedy
+        self.move()
+        self.speedx = 0
+        self.didBounceX = True
+        self.speedy = 0
+        self.didBounceY = True
+        
+    def bugCollide(self, other):
+        if self.rect.right > other.rect.left and self.rect.left < other.rect.right:
+            if self.rect.bottom > other.rect.top and self.rect.top < other.rect.bottom:
+                self.speedx = -self.speedx
+                self.speedy = -self.speedy
+                self.didBounceX = True
+                self.didBounceY = True
+                self.speedx = 0
+                self.speedy = 0
+                self.hit = True
+                other.decideDirection()
+
+    #def attack(self):
+        

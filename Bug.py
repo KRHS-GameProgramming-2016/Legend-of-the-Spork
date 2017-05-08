@@ -106,6 +106,16 @@ class Bug(pygame.sprite.Sprite):
             self.speedx = 0
             self.decideDirection()
 
+    def playerCollide(self, other):
+        self.speedx = -self.speedx
+        self.speedy = -self.speedy
+        self.move()
+        self.speedx = 0
+        self.didBounceX = True
+        self.speedy = 0
+        self.didBounceY = True
+        other.hit = True
+
     def dist(self, pt):
         x = pt[0] - self.rect.right
         y = pt[1] - self.rect.bottom

@@ -10,7 +10,7 @@ from LevelLoader import *
 #from HUD import *
 from Tiles import *
 from Impassable import *
-#from Shop import *
+from Shop import *
 from Title import *
 from BackgroundItems import *
 #from Background import *
@@ -35,8 +35,8 @@ bugs = pygame.sprite.Group()
 #trolls = pygame.sprite.Group()
 #bosss = pygame.sprite.Group()
 impassables = pygame.sprite.Group()
+shops = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
-#backgrounds = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
 
@@ -47,17 +47,10 @@ Bug.containers = all, bugs
 #Troll.containers = all, trolls
 #Boss.containers = all, bosss
 Impassables.containers = all, impassables
+Shop.containers = all, shops
 BackgroundItems.containers = all, backgrounditems
-#Background.containers = all, backgrounds
 Tiles.containers = all, tiles
 Title.containers = all, tiles
-
-#wolf = Wolf()
-#bandit = Bandit()
-#troll = Troll()
-#boss = Boss()
-
-
 
 while True:
     menu = True
@@ -115,6 +108,10 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_LEFT:
                     player.go("left")
+                #if event.key == pygame.K_LSHIFT:
+                    #player.attack()
+                #if event.key == pygame.K_z
+                    #player.interact()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
@@ -127,6 +124,18 @@ while True:
                     player.go("stop left")
 
         all.update(size)
+        playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
+        playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
+        playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
+        
+        for impassable in playerHitsImpassables:
+            player.impassableCollide(impassable)
+        
+        for shop in playerHitsShops:
+            player.shopCollide(shop)
+
+        for bug in playerHitsBugs:
+            player.bugCollide(bug)
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)

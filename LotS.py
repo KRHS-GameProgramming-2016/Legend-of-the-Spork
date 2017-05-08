@@ -36,7 +36,6 @@ bugs = pygame.sprite.Group()
 #bosss = pygame.sprite.Group()
 impassables = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
-#backgrounds = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
 
@@ -48,16 +47,8 @@ Bug.containers = all, bugs
 #Boss.containers = all, bosss
 Impassables.containers = all, impassables
 BackgroundItems.containers = all, backgrounditems
-#Background.containers = all, backgrounds
 Tiles.containers = all, tiles
 Title.containers = all, tiles
-
-#wolf = Wolf()
-#bandit = Bandit()
-#troll = Troll()
-#boss = Boss()
-
-
 
 while True:
     menu = True
@@ -115,6 +106,10 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_LEFT:
                     player.go("left")
+                #if event.key == pygame.K_LSHIFT:
+                    #player.attack()
+                #if event.key == pygame.K_z
+                    #player.interact()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
@@ -127,6 +122,14 @@ while True:
                     player.go("stop left")
 
         all.update(size)
+        playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
+        playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
+        
+        for impassable in playerHitsImpassables:
+            player.impassableCollide(impassable)
+
+        for bug in playerHitsBugs:
+            player.bugCollide(bug)
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)

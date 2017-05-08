@@ -64,7 +64,7 @@ class Level():
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
-                
+
 
         f = open("Res/World/"+levelFile+".tng")
         lines = f.readlines()
@@ -85,10 +85,10 @@ class Level():
 
         for y,line in enumerate(lines):
             for x,c in enumerate(line):
-                
-                
+
+
                 if c in "p":       #Player
-                    Player(64, 0, 5, 
+                    Player(64, 0, 5,
                         [x*self.tileSize + self.tileSize/2,
                          y*self.tileSize + self.tileSize/2])
                 if c in "q" :       #Bug
@@ -124,3 +124,8 @@ class Level():
                            #[x*self.tileSize + self.tileSize/2,
                             #y*self.tileSize + self.tileSize/2],
                            #self.tileSize)
+
+                if c in "s" :       #Shop
+                    Shop(64,
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2])
