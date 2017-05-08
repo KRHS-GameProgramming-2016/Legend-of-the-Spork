@@ -106,14 +106,6 @@ class Bug(pygame.sprite.Sprite):
             self.speedx = 0
             self.decideDirection()
 
-    def impassableCollide(self, other):
-        if not self.didBounceX: 
-            self.speedx = -self.speedx
-            self.didBounceX = True
-        if not self.didBounceY:
-            self.speedy = -self.speedy
-            self.didBounceY = True
-
     def dist(self, pt):
         x = pt[0] - self.rect.right
         y = pt[1] - self.rect.bottom

@@ -19,11 +19,11 @@ pygame.init()
 clock = pygame.time.Clock()
 
 width = 1000
-height = 850 # 700 + 150 for HUD stuff. 
+height = 850 # 700 + 150 for HUD stuff.
 size = width, height
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
-screen = pygame.display.set_mode(size)
+
 
 
 all = pygame.sprite.OrderedUpdates()
@@ -52,8 +52,6 @@ BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
 
-player = Player()
-bug = Bug()
 #wolf = Wolf()
 #bandit = Bandit()
 #troll = Troll()
@@ -63,7 +61,26 @@ bug = Bug()
 
 while True:
     menu = True
-    Title("Res/Background/Titlescreen.png", size)
+    controls = True
+    Title("Res/Background/Controls.png", size)
+    while controls:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    controls = False
+                    menu = True
+                    Title("Res/Background/Titlescreen.png", size)
+
+        all.update(size)
+
+        bgColor = r,g,b = 0,0,0
+        screen.fill(bgColor)
+        dirty = all.draw(screen)
+        pygame.display.update(dirty)
+        pygame.display.flip()
+        clock.tick(60)
+
     while menu:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
@@ -72,20 +89,20 @@ while True:
                     menu = False
                 if event.key == pygame.K_2:
                     sys.exit()
-        
+
         all.update(size)
-    
+
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
         dirty = all.draw(screen)
         pygame.display.update(dirty)
         pygame.display.flip()
         clock.tick(60)
-    
+
     for s in all.sprites():
         s.kill()
-    level = Level("World1") 
-    #player = players.sprites[0]
+    level = Level("World1")
+    player = players.sprites()[0]
     while player.living:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
@@ -98,7 +115,7 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_LEFT:
                     player.go("left")
-                
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     player.go("stop up")
@@ -108,14 +125,9 @@ while True:
                     player.go("stop right")
                 if event.key == pygame.K_LEFT:
                     player.go("stop left")
-                    
-        all.update(size)
-        
-        playerHitsImpassable = pygame.sprite.spritecollide(player, impassables, True)
-        playerHitsBackgroundItems = pygame.sprite.spritecollide(player, backgrounditems, False)
-        bugsHitsImpassable = pygame.sprite.groupcollide(bugs, impassables, False, False)
 
-        
+        all.update(size)
+
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
         dirty = all.draw(screen)
