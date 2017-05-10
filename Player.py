@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         if self.prevState != self.state:
             if self.state == "right":
-                self.image = self.imageRight
+                self,image = self.imageRight
             elif self.state == "left":
                 self.image = self.imageLeft
             elif self.state == "up":
@@ -119,15 +119,7 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = True
         self.speedy = 0
         self.didBounceY = True
-        
-    def shopCollide(self, other):
-        self.speedx = -self.speedx
-        self.speedy = -self.speedy
-        self.move()
-        self.speedx = 0
-        self.didBounceX = True
-        self.speedy = 0
-        self.didBounceY = True
+
         
     def bugCollide(self, other):
         if self.rect.right > other.rect.left and self.rect.left < other.rect.right:
@@ -141,5 +133,5 @@ class Player(pygame.sprite.Sprite):
                 self.hit = True
                 other.decideDirection()
 
-    #def attack(self):
-        
+    def attack(self):
+        self.attacking = True

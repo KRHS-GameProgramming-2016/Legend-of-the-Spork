@@ -23,7 +23,7 @@ class Bug(pygame.sprite.Sprite):
 
         self.frame = 0
         self.animationTimer = 0
-        self.animationTimerMax = 5#.3 * 60 #seconds * 60 fps
+        self.animationTimerMax = 5 #.3 * 60 #seconds * 60 fps
         self.images = self.imagesRight
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = pos)

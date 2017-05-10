@@ -35,6 +35,7 @@ bugs = pygame.sprite.Group()
 #trolls = pygame.sprite.Group()
 #bosss = pygame.sprite.Group()
 impassables = pygame.sprite.Group()
+interactables = pygame.sprite.Group()
 shops = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
@@ -47,7 +48,7 @@ Bug.containers = all, bugs
 #Troll.containers = all, trolls
 #Boss.containers = all, bosss
 Impassables.containers = all, impassables
-Shop.containers = all, shops
+Shop.containers = all, shops, interactables, impassables
 BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
@@ -108,10 +109,8 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_LEFT:
                     player.go("left")
-                #if event.key == pygame.K_LSHIFT:
-                    #player.attack()
-                #if event.key == pygame.K_z
-                    #player.interact()
+                if event.key == pygame.K_LSHIFT:
+                    player.attack()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
@@ -122,17 +121,17 @@ while True:
                     player.go("stop right")
                 if event.key == pygame.K_LEFT:
                     player.go("stop left")
+                if event.key == pygame.K_LSHIFT:
+                    player.attack()
 
         all.update(size)
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
+        playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
         playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
-        
+
         for impassable in playerHitsImpassables:
             player.impassableCollide(impassable)
-        
-        for shop in playerHitsShops:
-            player.shopCollide(shop)
 
         for bug in playerHitsBugs:
             player.bugCollide(bug)
