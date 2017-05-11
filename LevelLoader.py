@@ -18,7 +18,8 @@ class Level():
 
 
     def unloadLevel(self):
-        pass
+        for s in all.sprites():
+            s.kill()
 
     def loadLevel(self, levelFile, levelNumber):
         f = open("Res/World/"+levelFile+".lvl")

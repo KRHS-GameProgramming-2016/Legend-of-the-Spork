@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, screenSize):
         self.move()
         self.animate()
-        self.screenCollide(screenSize)
+        #self.screenCollide(screenSize)
 
     def move(self):
         self.didBounceX = False
@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         if self.prevState != self.state:
             if self.state == "right":
-                self,image = self.imageRight
+                self.image = self.imageRight
             elif self.state == "left":
                 self.image = self.imageLeft
             elif self.state == "up":
@@ -106,11 +106,19 @@ class Player(pygame.sprite.Sprite):
     def screenCollide(self, screenSize):
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]
+        wallHit = False
         if self.rect.top < 0 or self.rect.bottom > screenHeight:
+            self.speedy = -self.speedy
+            self.move()
             self.speedy = 0
-        if self.rect.left < 0 or self.rect.right > screenHeight:
+            wallHit = True
+        if self.rect.left < 0 or self.rect.right > screenWidth:
+            self.speedx = -self.speedx
+            self.move()
             self.speedx = 0
-
+            wallHit = True
+        return wallHit
+            
     def impassableCollide(self, other):
         self.speedx = -self.speedx
         self.speedy = -self.speedy

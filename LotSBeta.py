@@ -21,6 +21,7 @@ clock = pygame.time.Clock()
 width = 1000
 height = 850 # 700 + 150 for HUD stuff.
 size = width, height
+gameSize = 11*64,10*64
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
 
@@ -52,6 +53,10 @@ Shop.containers = all, shops, interactables, impassables
 BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
+
+world = 1
+screenx = 1
+screeny = 1
 
 while True:
     menu = True
@@ -95,7 +100,8 @@ while True:
 
     for s in all.sprites():
         s.kill()
-    level = Level("World1")
+    
+    level = Level(str(world) + str(screenx) + str(screeny))
     player = players.sprites()[0]
     while player.living:
         for event in pygame.event.get():
@@ -124,7 +130,31 @@ while True:
                 if event.key == pygame.K_LSHIFT:
                     player.attack()
 
-        all.update(size)
+        all.update(gameSize)
+        
+        if player.screenCollide(gameSize):
+            if player.rect.left <= 0:
+                screenx -= 1
+                px = gameSize[0] - (64/2 + 1)
+                py = player.rect.center[1]
+            if player.rect.left <= 0:
+                screenx -= 1
+                px = gameSize[0] + (64/2 + 1)
+                py = player.rect.center[1]
+            if player.rect.top <= 0:
+                screeny -= 1
+                px = player.rect.center[0]
+                py = gameSize[0] - (64/2 + 1)
+            if player.rect.top <= 0:
+                screeny -= 1
+                px = player.rect.center[0]
+                py = gameSize[0] + (64/2 + 1)
+            #...all directions
+            
+            level.unloadLevel()
+            level = Level(str(world) + str(screenx) + str(screeny))
+            player = Player(64, 0, 5, [px, py])
+        
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
