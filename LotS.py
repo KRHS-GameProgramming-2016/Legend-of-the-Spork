@@ -19,7 +19,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 width = 1000
-height = 850 # 700 + 150 for HUD stuff.
+height = 850 # 700 and 150 for HUD stuff.
 size = width, height
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0

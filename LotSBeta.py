@@ -117,6 +117,16 @@ while True:
                     player.go("left")
                 if event.key == pygame.K_LSHIFT:
                     player.attack()
+                    
+                if event.key == pygame.K_w:
+                    player.go("up")
+                if event.key == pygame.K_s:
+                    player.go("down")
+                if event.key == pygame.K_d:
+                    player.go("right")
+                if event.key == pygame.K_a:
+                    player.go("left")
+                
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
@@ -129,6 +139,15 @@ while True:
                     player.go("stop left")
                 if event.key == pygame.K_LSHIFT:
                     player.attack()
+
+                if event.key == pygame.K_w:
+                    player.go("stop up")
+                if event.key == pygame.K_s:
+                    player.go("stop down")
+                if event.key == pygame.K_d:
+                    player.go("stop right")
+                if event.key == pygame.K_a:
+                    player.go("stop left")
 
         all.update(gameSize)
         
