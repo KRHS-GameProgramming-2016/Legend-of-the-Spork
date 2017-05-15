@@ -108,13 +108,9 @@ class Player(pygame.sprite.Sprite):
         screenHeight = screenSize[1]
         wallHit = False
         if self.rect.top < 0 or self.rect.bottom > screenHeight:
-            self.speedy = -self.speedy
-            self.move()
             self.speedy = 0
             wallHit = True
         if self.rect.left < 0 or self.rect.right > screenWidth:
-            self.speedx = -self.speedx
-            self.move()
             self.speedx = 0
             wallHit = True
         return wallHit

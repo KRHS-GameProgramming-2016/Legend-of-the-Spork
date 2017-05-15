@@ -18,8 +18,7 @@ class Level():
 
 
     def unloadLevel(self):
-        for s in all.sprites():
-            s.kill()
+        pass
 
     def loadLevel(self, levelFile, levelNumber):
         f = open("Res/World/"+levelFile+".lvl")
@@ -102,11 +101,11 @@ class Level():
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
-                #if c in "w" :       #Wolf
-                    #Impassables("boulder",
-                           #[x*self.tileSize + self.tileSize/2,
-                            #y*self.tileSize + self.tileSize/2],
-                           #self.tileSize)
+                if c in "w" :       #Wolf
+                    Wolf(1,
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2],
+                           self.tileSize)
 
                 #if c in "e" :       #Bandit
                     #Impassables("boulder",

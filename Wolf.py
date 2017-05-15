@@ -4,14 +4,14 @@ class Wolf(pygame.sprite.Sprite):
     def __init__(self, speed=0, pos=[0,0], size=64):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.size = size
-        self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
-        self.imagesRight = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
-        self.imagesUp = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
-        self.imagesDown = [pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug1.png"), [self.size,self.size]),
-                           pygame.transform.scale(pygame.image.load("Res/Enemies/PNG/Bug2.png"), [self.size,self.size])]
+        self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf left.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf left.png"), [self.size,self.size])]
+        self.imagesRight = [pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf.png"), [self.size,self.size])]
+        self.imagesUp = [pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf back.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf back.png"), [self.size,self.size])]
+        self.imagesDown = [pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf copy.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Enemies/Wolf copy.png"), [self.size,self.size])]
 
         self.maxSpeed = speed
 
