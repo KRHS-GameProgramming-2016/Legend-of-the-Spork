@@ -8,6 +8,10 @@ class Impassables(pygame.sprite.Sprite):
             self.image = pygame.image.load("Res/ImpassableObj/Water.png")
         elif self.impass == "boulder":
             self.image = pygame.image.load("Res/ImpassableObj/Boulder.png")
+        elif self.impass == "riverS":
+            self.image = pygame.image.load("Res/ImpassableObj/WaterS.png")
+        elif self.impass == "impassgrass":
+            self.image = pygame.image.load("Res/ImpassableObj/ImpassGrass.png")
         if size:
             self.image = pygame.transform.scale(self.image, [size,size])
         self.rect = self.image.get_rect(center = pos)

@@ -64,6 +64,16 @@ class Level():
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2],
                            self.tileSize)
+                if c in "+" :       #River
+                    Impassables("riverS",
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2],
+                           self.tileSize)
+                if c in "?" :       #River
+                    Impassables("impassgrass",
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2],
+                           self.tileSize)
 
 
         f = open("Res/World/"+levelFile+".tng")
