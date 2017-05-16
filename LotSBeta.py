@@ -18,10 +18,10 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-width = 1000
+width = 700
 height = 850 # 700 + 150
 size = width, height
-gameSize = 11*64,10*64
+gameSize = 11*64,11*64
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
 
@@ -102,7 +102,7 @@ while True:
         s.kill()
 
     level = Level(str(world) + str(screenx) + str(screeny))
-    player = players.sprites()[0]
+    player = Player(64, 0, 5,[96,96])
     while player.living:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()

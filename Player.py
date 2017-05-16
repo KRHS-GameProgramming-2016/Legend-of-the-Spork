@@ -1,23 +1,22 @@
 import pygame, sys, math, time
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,  size = 64, speed = 0, maxSpeed = 5, pos = [0,0]):
+    def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0]):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.imageLeft  = pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [size, size])
-        self.imageRight = pygame.transform.scale(pygame.image.load("Res/Player/Player side Right.png"), [size, size])
-        self.imageUp = pygame.transform.scale(pygame.image.load("Res/Player/Player Back.png"), [size, size])
-        self.imageDown = pygame.transform.scale(pygame.image.load("Res/Player/Player.png"), [size, size])
-        #self.imagesLeft = pygame.image.load(
-        #self.imagesRight = pygame.image.load(
-        #self.imagesUp = pygame.image.load(
-        #self.imagesDown = pygame.image.load(
+        self.size = size
+        self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [self.size,self.size])]
+        self.imagesRight = [pygame.transform.scale(pygame.image.load("Res/Player/Player side Right.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Player/Player side Right.png"), [self.size,self.size])]
+        self.imagesUp = [pygame.transform.scale(pygame.image.load("Res/Player/Player Back.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Player/Player Back.png"), [self.size,self.size])]
+        self.imagesDown = [pygame.transform.scale(pygame.image.load("Res/Player/Player.png"), [self.size,self.size]),
+                           pygame.transform.scale(pygame.image.load("Res/Player/Player.png"), [self.size,self.size])]
         self.size = size
 
         self.state = "right"
         self.prevState = "right"
-        self.image = self.imageRight
-        self.rect = self.image.get_rect(center = pos)
-
+        self.images = self.imagesRight
 
         self.speedx = 0
         self.speedy = 0
@@ -31,11 +30,13 @@ class Player(pygame.sprite.Sprite):
         self.living = True
         self.attacking = False
 
-        #self.frame = 0
-        #self.maxFrame = len(self.images) - 1
-        #self.animationTimer = 0
-        #self.animationTimerMax = .2 * 60 #seconds * 60 fps
-        #self.blinkFrame = 0
+        self.frame = 0
+        self.animationTimer = 0
+        self.animationTimerMax = 5 #.3 * 60 #seconds * 60 fps
+        self.images = self.imagesRight
+        self.image = self.images[self.frame]
+        self.rect = self.image.get_rect(center = pos)
+        self.maxFrame = len(self.images) - 1
 
         self.animate()
 
@@ -52,14 +53,29 @@ class Player(pygame.sprite.Sprite):
 
     def animate(self):
         if self.prevState != self.state:
+            self.prevState = self.state
             if self.state == "right":
-                self.image = self.imageRight
+                self.images = self.imagesRight
             elif self.state == "left":
-                self.image = self.imageLeft
+                self.images = self.imagesLeft
             elif self.state == "up":
-                self.image = self.imageUp
+                self.images = self.imagesUp
             elif self.state == "down":
-                self.image = self.imageDown
+                self.images = self.imagesDown
+            self.frame = 0
+            self.maxFrame = len(self.images) - 1
+            self.animationTimer = self.animationTimerMax
+
+        if self.animationTimer < self.animationTimerMax:
+            self.animationTimer += 1
+
+        else:
+            self.animationTimer = 0
+            if self.frame < self.maxFrame:
+                self.frame += 1
+            else:
+                self.frame = 0
+            self.image = self.images[self.frame]
 
     def go(self, direction):
         if direction == "right":
@@ -114,7 +130,7 @@ class Player(pygame.sprite.Sprite):
             self.speedx = 0
             wallHit = True
         return wallHit
-            
+
     def impassableCollide(self, other):
         self.speedx = -self.speedx
         self.speedy = -self.speedy
@@ -124,7 +140,7 @@ class Player(pygame.sprite.Sprite):
         self.speedy = 0
         self.didBounceY = True
 
-        
+
     def bugCollide(self, other):
         if self.rect.right > other.rect.left and self.rect.left < other.rect.right:
             if self.rect.bottom > other.rect.top and self.rect.top < other.rect.bottom:
