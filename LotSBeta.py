@@ -2,7 +2,7 @@ import sys, math, pygame, random
 
 from Player import *
 from Bug import *
-#from Wolf import *
+from Wolf import *
 #from Troll import *
 #from Boss import *
 from LevelLoader import *
@@ -18,10 +18,10 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-width = 1000
-height = 850 # 700 + 150 for HUD stuff.
+width = 700
+height = 850 # 700 + 150
 size = width, height
-gameSize = 11*64,10*64
+gameSize = 11*64,11*64
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
 
@@ -31,7 +31,7 @@ all = pygame.sprite.OrderedUpdates()
 
 players = pygame.sprite.Group()
 bugs = pygame.sprite.Group()
-#wolfs = pygame.sprite.Group()
+wolfs = pygame.sprite.Group()
 #bandits = pygame.sprite.Group()
 #trolls = pygame.sprite.Group()
 #bosss = pygame.sprite.Group()
@@ -44,7 +44,7 @@ titles = pygame.sprite.Group()
 
 Player.containers = all, players
 Bug.containers = all, bugs
-#Wolf.containers = all, wolfs
+Wolf.containers = all, wolfs
 #Bandit.containers = all, bandits
 #Troll.containers = all, trolls
 #Boss.containers = all, bosss
@@ -100,9 +100,9 @@ while True:
 
     for s in all.sprites():
         s.kill()
-    
+
     level = Level(str(world) + str(screenx) + str(screeny))
-    player = players.sprites()[0]
+    player = Player(64, 0, 5,[96,96])
     while player.living:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
@@ -117,7 +117,7 @@ while True:
                     player.go("left")
                 if event.key == pygame.K_LSHIFT:
                     player.attack()
-                    
+
                 if event.key == pygame.K_w:
                     player.go("up")
                 if event.key == pygame.K_s:
@@ -126,7 +126,7 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_a:
                     player.go("left")
-                
+
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
@@ -150,30 +150,30 @@ while True:
                     player.go("stop left")
 
         all.update(gameSize)
-        
+
         if player.screenCollide(gameSize):
             if player.rect.left <= 0:
                 screenx -= 1
                 px = gameSize[0] - (64/2 + 1)
                 py = player.rect.center[1]
-            if player.rect.left <= 0:
-                screenx -= 1
-                px = gameSize[0] + (64/2 + 1)
+            if player.rect.right >= gameSize[0]:
+                screenx += 1
+                px = 0 + (64/2 + 1)
                 py = player.rect.center[1]
             if player.rect.top <= 0:
                 screeny -= 1
                 px = player.rect.center[0]
-                py = gameSize[0] - (64/2 + 1)
-            if player.rect.top <= 0:
-                screeny -= 1
+                py = gameSize[1] - (64/2 + 1)
+            if player.rect.bottom >= gameSize[1]:
+                screeny += 1
                 px = player.rect.center[0]
-                py = gameSize[0] + (64/2 + 1)
-            #...all directions
-            
-            level.unloadLevel()
+                py = 0 + (64/2 + 1)
+
+            for s in all.sprites():
+                s.kill()
             level = Level(str(world) + str(screenx) + str(screeny))
             player = Player(64, 0, 5, [px, py])
-        
+
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
