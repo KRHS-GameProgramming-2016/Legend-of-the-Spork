@@ -13,19 +13,18 @@ from Impassable import *
 from Shop import *
 from Title import *
 from BackgroundItems import *
-#from Background import *
+from Health import *
+#from Weapon import *
 pygame.init()
 
 clock = pygame.time.Clock()
 
 width = 700
-height = 850 # 700 + 150
+height = 850 # 700 for game screen, 150 for HUD crap
 size = width, height
 gameSize = 11*64,11*64
 screen = pygame.display.set_mode(size)
 bgColor = 0,0,0
-
-
 
 all = pygame.sprite.OrderedUpdates()
 
@@ -41,6 +40,8 @@ shops = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
+#weapons = pygame.sprite.Group()
+healths = pygame.sprite.Group()
 
 Player.containers = all, players
 Bug.containers = all, bugs
@@ -53,6 +54,8 @@ Shop.containers = all, shops, interactables, impassables
 BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
+Health.containers = all, healths
+#Weapon.containers = all, weapons
 
 world = 1
 screenx = 1
@@ -103,6 +106,7 @@ while True:
 
     level = Level(str(world) + str(screenx) + str(screeny))
     player = Player(64, 0, 5,[96,96])
+    health = Health([width*.20, 750])
     while player.living:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
@@ -126,7 +130,6 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_a:
                     player.go("left")
-
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
