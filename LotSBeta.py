@@ -64,6 +64,7 @@ screeny = 1
 while True:
     menu = True
     controls = True
+    end = False
     Title("Res/Background/Controls.png", size)
     while controls:
         for event in pygame.event.get():
@@ -72,6 +73,7 @@ while True:
                 if event.key == pygame.K_RETURN:
                     controls = False
                     menu = True
+                    end = False
                     Title("Res/Background/Titlescreen.png", size)
 
         all.update(size)
@@ -106,8 +108,8 @@ while True:
 
     level = Level(str(world) + str(screenx) + str(screeny))
     player = Player(64, 0, 5,[96,96])
-    health = Health([width*.20, 750])
-    while player.living:
+    health = Health([width*.20, 750], player.health)
+    while player.living == True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
@@ -151,8 +153,11 @@ while True:
                     player.go("stop right")
                 if event.key == pygame.K_a:
                     player.go("stop left")
+                
+            if players.sprites < 1:
+                sys.exit()
 
-        all.update(gameSize)
+        all.update(gameSize, player.health)
 
         if player.screenCollide(gameSize):
             if player.rect.left <= 0:
@@ -172,10 +177,12 @@ while True:
                 px = player.rect.center[0]
                 py = 0 + (64/2 + 1)
 
+            ph = player.health
             for s in all.sprites():
                 s.kill()
             level = Level(str(world) + str(screenx) + str(screeny))
-            player = Player(64, 0, 5, [px, py])
+            player = Player(64, 0, 5, [px, py], ph)
+            health = Health([width*.20, 750], player.health)
 
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
@@ -188,9 +195,20 @@ while True:
         for bug in playerHitsBugs:
             player.bugCollide(bug)
 
+
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
         dirty = all.draw(screen)
         pygame.display.update(dirty)
         pygame.display.flip()
         clock.tick(60)
+    for s in all.sprites():
+        s.kill()
+    while end:
+        menu = False
+        controls = False
+        end = True
+        Title("Res/Background/End.png", size)
+    
+        
+    

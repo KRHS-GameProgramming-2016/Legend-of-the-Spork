@@ -1,7 +1,7 @@
 import pygame, sys, math, time
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0]):
+    def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0], health=3):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.size = size
         self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [self.size,self.size]),
@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.didBounceY = False
 
         self.hit = False
-        self.health = 3
+        self.health = health
         self.living = True
         self.attacking = False
 
@@ -39,10 +39,23 @@ class Player(pygame.sprite.Sprite):
         self.maxFrame = len(self.images) - 1
 
         self.animate()
+        
+        self.hitTimer = 0
+        self.hitTimerMax = 1*60 #second * 60fps
 
-    def update(self, screenSize):
+    def update(self, *args):
+        screenSize = args[0]
         self.move()
         self.animate()
+        
+        if self.hit:
+            if self.hitTimer < self.hitTimerMax:
+                self.hitTimer += 1
+            else:
+                self.hitTimer = 0
+                self.hit = False
+        if self.health <= 0:
+            self.living = False    
         #self.screenCollide(screenSize)
 
     def move(self):
@@ -144,14 +157,19 @@ class Player(pygame.sprite.Sprite):
     def bugCollide(self, other):
         if self.rect.right > other.rect.left and self.rect.left < other.rect.right:
             if self.rect.bottom > other.rect.top and self.rect.top < other.rect.bottom:
+                if not self.hit:
+                    self.hit = True
+                    self.health -= 1
                 self.speedx = -self.speedx
                 self.speedy = -self.speedy
                 self.didBounceX = True
                 self.didBounceY = True
                 self.speedx = 0
                 self.speedy = 0
-                self.hit = True
                 other.decideDirection()
+                
+                if self.health <= 0:
+                    self.living = False
 
     def attack(self):
         self.attacking = True
