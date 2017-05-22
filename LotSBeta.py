@@ -153,9 +153,11 @@ while True:
                     player.go("stop right")
                 if event.key == pygame.K_a:
                     player.go("stop left")
-                
-            if players.sprites < 1:
-                sys.exit()
+
+            if players.sprites <= 0:
+                menu = False
+                controls = False
+                end = True
 
         all.update(gameSize, player.health)
 
@@ -204,11 +206,30 @@ while True:
         clock.tick(60)
     for s in all.sprites():
         s.kill()
-    while end:
-        menu = False
-        controls = False
+
+    if player.living == False:
         end = True
+        controls = False
+        menu = False
+
+    while end:
         Title("Res/Background/End.png", size)
-    
-        
-    
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
+            if event.type == pygame.KEYDOWN:
+                sys.exit()
+
+        all.update(size)
+
+        bgColor = r,g,b = 0,0,0
+        screen.fill(bgColor)
+        dirty = all.draw(screen)
+        pygame.display.update(dirty)
+        pygame.display.flip()
+        clock.tick(60)
+
+    for s in all.sprites():
+        s.kill()
+
+
+
