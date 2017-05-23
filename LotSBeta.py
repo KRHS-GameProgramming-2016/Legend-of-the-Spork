@@ -157,7 +157,9 @@ while True:
                 controls = False
                 end = True
 
-        all.update(gameSize, player.health)
+        all.update(gameSize, 
+                   player.health, 
+                   player.attacking)
 
         if player.screenCollide(gameSize):
             if player.rect.left <= 0:
@@ -215,7 +217,9 @@ while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
-                sys.exit()
+                end = False
+                controls = True
+                menu = False
 
         all.update(size)
 

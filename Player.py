@@ -1,4 +1,6 @@
 import pygame, sys, math, time
+from Weapon import *
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0], health=3):
@@ -25,10 +27,10 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = False
         self.didBounceY = False
 
-        self.hit = False
+        
         self.health = health
         self.living = True
-        self.attacking = False
+        
 
         self.frame = 0
         self.animationTimer = 0
@@ -40,8 +42,13 @@ class Player(pygame.sprite.Sprite):
 
         self.animate()
         
+        self.hit = False
         self.hitTimer = 0
         self.hitTimerMax = 1*60 #second * 60fps
+        
+        self.attacking = False
+        self.attackTimer = 0
+        self.attackTimerMax = .5*60 #second * 60fps
 
     def update(self, *args):
         screenSize = args[0]
@@ -54,6 +61,14 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.hitTimer = 0
                 self.hit = False
+        
+        if self.attacking:
+            if self.attackTimer < self.attackTimerMax:
+                self.attackTimer += 1
+            else:
+                self.attackTimer = 0
+                self.attacking = False
+       
         if self.health <= 0:
             self.living = False    
         #self.screenCollide(screenSize)
@@ -153,6 +168,14 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = True
         self.speedy = 0
         self.didBounceY = True
+        
+    def attack(self):
+        if not self.attacking:
+            self.attacking = True
+            Weapon(self.rect.center, self.state)
+            self.speedx = 0
+            self.speedy = 0
+        
 
 
     def bugCollide(self, other):
