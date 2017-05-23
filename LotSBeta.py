@@ -14,6 +14,7 @@ from Shop import *
 from Title import *
 from BackgroundItems import *
 from Health import *
+from Weapon import *
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -40,6 +41,7 @@ backgrounditems = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
 healths = pygame.sprite.Group()
+weapons = pygame.sprite.Group()
 
 Player.containers = all, players
 Bug.containers = all, bugs
@@ -53,6 +55,7 @@ BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
 Health.containers = all, healths
+Weapon.containers = all, weapons
 
 world = 1
 screenx = 1
