@@ -91,35 +91,36 @@ class Player(pygame.sprite.Sprite):
             self.image = self.images[self.frame]
 
     def go(self, direction):
-        if direction == "right":
-            self.speedx = self.maxSpeed
-            self.speedy = 0
-            self.state = "right"
-        elif direction == "left":
-            self.speedx = -self.maxSpeed
-            self.speedy = 0
-            self.state = "left"
-        elif direction == "up":
-            self.speedx = 0
-            self.speedy = -self.maxSpeed
-            self.state = "up"
-        elif direction == "down":
-            self.speedx = 0
-            self.speedy = self.maxSpeed
-            self.state = "down"
+        if not self.attacking:
+            if direction == "right":
+                self.speedx = self.maxSpeed
+                self.speedy = 0
+                self.state = "right"
+            elif direction == "left":
+                self.speedx = -self.maxSpeed
+                self.speedy = 0
+                self.state = "left"
+            elif direction == "up":
+                self.speedx = 0
+                self.speedy = -self.maxSpeed
+                self.state = "up"
+            elif direction == "down":
+                self.speedx = 0
+                self.speedy = self.maxSpeed
+                self.state = "down"
 
-        elif direction == "stop up":
-            self.speedy = 0
-            self.prevState = "up"
-        elif direction == "stop down":
-            self.speedy = 0
-            self.prevState = "down"
-        elif direction == "stop left":
-            self.speedx = 0
-            self.prevState = "left"
-        elif direction == "stop right":
-            self.speedx = 0
-            self.prevState = "right"
+            elif direction == "stop up":
+                self.speedy = 0
+                self.prevState = "up"
+            elif direction == "stop down":
+                self.speedy = 0
+                self.prevState = "down"
+            elif direction == "stop left":
+                self.speedx = 0
+                self.prevState = "left"
+            elif direction == "stop right":
+                self.speedx = 0
+                self.prevState = "right"
 
     def dist(self, pt):
         x = pt[0] - self.rect.right
@@ -170,6 +171,3 @@ class Player(pygame.sprite.Sprite):
                 
                 if self.health <= 0:
                     self.living = False
-
-    def attack(self):
-        self.attacking = True
