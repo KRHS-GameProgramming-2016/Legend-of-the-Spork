@@ -33,7 +33,8 @@ class Bug(pygame.sprite.Sprite):
         self.hit = False
         self.animate()
 
-    def update(self, screenSize):
+    def update(self, *args):
+        screenSize = args[0]
         self.move()
         self.animate()
         self.screenCollide(screenSize)

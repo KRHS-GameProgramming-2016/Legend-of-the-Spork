@@ -32,7 +32,8 @@ class Wolf(pygame.sprite.Sprite):
         self.decideDirection()
         self.hit = False
 
-    def update(self, screenSize):
+    def update(self, *args):
+        screenSize = args[0]
         self.move()
         self.animate()
         self.screenCollide(screenSize)
