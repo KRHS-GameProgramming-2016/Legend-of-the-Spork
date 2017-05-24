@@ -14,7 +14,7 @@ from Shop import *
 from Title import *
 from BackgroundItems import *
 from Health import *
-#from Weapon import *
+from Weapon import *
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -40,8 +40,8 @@ shops = pygame.sprite.Group()
 backgrounditems = pygame.sprite.Group()
 tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
-#weapons = pygame.sprite.Group()
 healths = pygame.sprite.Group()
+weapons = pygame.sprite.Group()
 
 Player.containers = all, players
 Bug.containers = all, bugs
@@ -55,7 +55,7 @@ BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
 Title.containers = all, tiles
 Health.containers = all, healths
-#Weapon.containers = all, weapons
+Weapon.containers = all, weapons
 
 world = 1
 screenx = 1
@@ -65,7 +65,7 @@ while True:
     menu = True
     controls = True
     end = False
-    Title("Res/Background/Controls.png", size)
+    Title("Res/Background/Controls copy.png", size)
     while controls:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
@@ -142,8 +142,6 @@ while True:
                     player.go("stop right")
                 if event.key == pygame.K_LEFT:
                     player.go("stop left")
-                if event.key == pygame.K_LSHIFT:
-                    player.attack()
 
                 if event.key == pygame.K_w:
                     player.go("stop up")
@@ -159,7 +157,9 @@ while True:
                 controls = False
                 end = True
 
-        all.update(gameSize, player.health)
+        all.update(gameSize, 
+                   player.health, 
+                   player.attacking)
 
         if player.screenCollide(gameSize):
             if player.rect.left <= 0:
@@ -217,7 +217,9 @@ while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
-                sys.exit()
+                end = False
+                controls = True
+                menu = False
 
         all.update(size)
 
@@ -230,6 +232,3 @@ while True:
 
     for s in all.sprites():
         s.kill()
-
-
-

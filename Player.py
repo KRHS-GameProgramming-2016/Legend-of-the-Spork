@@ -1,4 +1,6 @@
 import pygame, sys, math, time
+from Weapon import *
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0], health=3):
@@ -25,10 +27,10 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = False
         self.didBounceY = False
 
-        self.hit = False
+        
         self.health = health
         self.living = True
-        self.attacking = False
+        
 
         self.frame = 0
         self.animationTimer = 0
@@ -40,8 +42,13 @@ class Player(pygame.sprite.Sprite):
 
         self.animate()
         
+        self.hit = False
         self.hitTimer = 0
         self.hitTimerMax = 1*60 #second * 60fps
+        
+        self.attacking = False
+        self.attackTimer = 0
+        self.attackTimerMax = .5*60 #second * 60fps
 
     def update(self, *args):
         screenSize = args[0]
@@ -54,6 +61,14 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.hitTimer = 0
                 self.hit = False
+        
+        if self.attacking:
+            if self.attackTimer < self.attackTimerMax:
+                self.attackTimer += 1
+            else:
+                self.attackTimer = 0
+                self.attacking = False
+       
         if self.health <= 0:
             self.living = False    
         #self.screenCollide(screenSize)
@@ -91,35 +106,36 @@ class Player(pygame.sprite.Sprite):
             self.image = self.images[self.frame]
 
     def go(self, direction):
-        if direction == "right":
-            self.speedx = self.maxSpeed
-            self.speedy = 0
-            self.state = "right"
-        elif direction == "left":
-            self.speedx = -self.maxSpeed
-            self.speedy = 0
-            self.state = "left"
-        elif direction == "up":
-            self.speedx = 0
-            self.speedy = -self.maxSpeed
-            self.state = "up"
-        elif direction == "down":
-            self.speedx = 0
-            self.speedy = self.maxSpeed
-            self.state = "down"
+        if not self.attacking:
+            if direction == "right":
+                self.speedx = self.maxSpeed
+                self.speedy = 0
+                self.state = "right"
+            elif direction == "left":
+                self.speedx = -self.maxSpeed
+                self.speedy = 0
+                self.state = "left"
+            elif direction == "up":
+                self.speedx = 0
+                self.speedy = -self.maxSpeed
+                self.state = "up"
+            elif direction == "down":
+                self.speedx = 0
+                self.speedy = self.maxSpeed
+                self.state = "down"
 
-        elif direction == "stop up":
-            self.speedy = 0
-            self.prevState = "up"
-        elif direction == "stop down":
-            self.speedy = 0
-            self.prevState = "down"
-        elif direction == "stop left":
-            self.speedx = 0
-            self.prevState = "left"
-        elif direction == "stop right":
-            self.speedx = 0
-            self.prevState = "right"
+            elif direction == "stop up":
+                self.speedy = 0
+                self.prevState = "up"
+            elif direction == "stop down":
+                self.speedy = 0
+                self.prevState = "down"
+            elif direction == "stop left":
+                self.speedx = 0
+                self.prevState = "left"
+            elif direction == "stop right":
+                self.speedx = 0
+                self.prevState = "right"
 
     def dist(self, pt):
         x = pt[0] - self.rect.right
@@ -152,6 +168,14 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = True
         self.speedy = 0
         self.didBounceY = True
+        
+    def attack(self):
+        if not self.attacking:
+            self.attacking = True
+            Weapon(self.rect.center, self.state)
+            self.speedx = 0
+            self.speedy = 0
+        
 
 
     def bugCollide(self, other):
@@ -170,6 +194,3 @@ class Player(pygame.sprite.Sprite):
                 
                 if self.health <= 0:
                     self.living = False
-
-    def attack(self):
-        self.attacking = True
