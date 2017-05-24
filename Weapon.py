@@ -18,9 +18,13 @@ class Weapon(pygame.sprite.Sprite):
             pos = [pos[0] - 35,
                    pos[1] + 10]
         elif direction == "up":
-            self.image = self.imageLeft
-            pos = [pos[0] + 0,
-                   pos[1] - 50]
+            self.image = self.imageUp
+            pos = [pos[0] + 10,
+                   pos[1] - 35]
+        elif direction == "down":
+            self.image = self.imageDown
+            pos = [pos[0] - 10,
+                   pos[1] + 35]
         self.rect = self.image.get_rect(center = pos)
     
     def update(self, *args):
