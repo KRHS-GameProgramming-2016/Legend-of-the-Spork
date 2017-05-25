@@ -157,8 +157,8 @@ while True:
                 controls = False
                 end = True
 
-        all.update(gameSize, 
-                   player.health, 
+        all.update(gameSize,
+                   player.health,
                    player.attacking)
 
         if player.screenCollide(gameSize):
@@ -190,6 +190,7 @@ while True:
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
         playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
+        playerHitsWolfs = pygame.sprite.spritecollide(player, wolfs, False)
 
         for impassable in playerHitsImpassables:
             player.impassableCollide(impassable)
@@ -197,6 +198,8 @@ while True:
         for bug in playerHitsBugs:
             player.bugCollide(bug)
 
+        for wolf in playerHitsWolfs:
+            player.bugCollide(wolf)
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
