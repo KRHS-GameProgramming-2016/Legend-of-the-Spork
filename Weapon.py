@@ -5,9 +5,9 @@ class Weapon(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         
         self.imageRight = pygame.image.load("Res/Player/Spork.png")
-        self.imageLeft = pygame.image.load("Res/Player/WeaponLeft.png")
-        self.imageUp = pygame.image.load("Res/Player/WeaponUp.png")
-        self.imageDown = pygame.image.load("Res/Player/WeaponDown.png")
+        self.imageLeft = pygame.image.load("Res/Player/SporkLeft.png")
+        self.imageUp = pygame.image.load("Res/Player/SporkUp.png")
+        self.imageDown = pygame.image.load("Res/Player/SporkDown.png")
         
         if direction == "right":
             self.image = self.imageRight
