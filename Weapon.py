@@ -4,7 +4,7 @@ class Weapon(pygame.sprite.Sprite):
     def __init__(self, pos, direction):
         pygame.sprite.Sprite.__init__(self, self.containers)
         
-        self.imageRight = pygame.image.load("Res/Player/WeaponRight.png")
+        self.imageRight = pygame.image.load("Res/Player/Spork.png")
         self.imageLeft = pygame.image.load("Res/Player/WeaponLeft.png")
         self.imageUp = pygame.image.load("Res/Player/WeaponUp.png")
         self.imageDown = pygame.image.load("Res/Player/WeaponDown.png")
@@ -31,5 +31,7 @@ class Weapon(pygame.sprite.Sprite):
         attacking = args[2]
         if not attacking:
             self.kill()
-
-    
+            
+    def bugCollide(self, other):
+        other.hp -= 1
+        other.decideDirection()
