@@ -1,5 +1,6 @@
 import sys, math, pygame, random
 
+from Weapon import *
 from Player import *
 from Bug import *
 from Wolf import *
@@ -14,7 +15,7 @@ from Shop import *
 from Title import *
 from BackgroundItems import *
 from Health import *
-from Weapon import *
+
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -42,6 +43,7 @@ tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
 healths = pygame.sprite.Group()
 weapons = pygame.sprite.Group()
+sproks = pygame.sprite.Group()
 
 Player.containers = all, players
 Bug.containers = all, bugs
@@ -53,9 +55,10 @@ Impassables.containers = all, impassables
 Shop.containers = all, shops, interactables, impassables
 BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
-Title.containers = all, tiles
+Title.containers = all, titles
 Health.containers = all, healths
 Weapon.containers = all, weapons
+Spork.containers = all, sproks
 
 world = 1
 screenx = 1
@@ -135,13 +138,6 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_a:
                     player.go("left")
-                    
-                #if event.key == pygame.K_BACKQUOTE :
-                    #print event.mod, pygame.KMOD_LALT
-                    #if event.mod & pygame.KMOD_LALT:
-                        #print "new level"
-                        #newlev = raw_input("Screen Number: ")
-                        #level.loadLevel("screen"+newlev,)
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
@@ -204,7 +200,7 @@ while True:
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
         playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
         playerHitsWolfs = pygame.sprite.spritecollide(player, wolfs, False)
-        weaponHitsBugs = pygame.sprite.spritecollide(weapon, bugs, False)
+        #weaponHitsBugs = pygame.sprite.spritecollide(weapon, bugs, False)
 
         for impassable in playerHitsImpassables:
             player.impassableCollide(impassable)
@@ -215,8 +211,8 @@ while True:
         for wolf in playerHitsWolfs:
             player.bugCollide(wolf)
 
-        for bug in weaponHitsBugs:
-            bug.weaponCollide(weapon)
+        #for bug in weaponHitsBugs:
+            #bug.weaponCollide(weapon)
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
