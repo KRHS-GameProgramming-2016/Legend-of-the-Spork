@@ -26,6 +26,7 @@ class Weapon(pygame.sprite.Sprite):
             pos = [pos[0] - 10,
                    pos[1] + 35]
         self.rect = self.image.get_rect(center = pos)
+        self.damage = 1
     
     def update(self, *args):
         attacking = args[2]

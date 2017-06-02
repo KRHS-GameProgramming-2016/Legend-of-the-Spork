@@ -43,11 +43,12 @@ tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
 healths = pygame.sprite.Group()
 weapons = pygame.sprite.Group()
-sproks = pygame.sprite.Group()
+sporks = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
 
 Player.containers = all, players
-Bug.containers = all, bugs
-Wolf.containers = all, wolfs
+Bug.containers = all, bugs, enemies
+Wolf.containers = all, wolfs, enemies
 #Bandit.containers = all, bandits
 #Troll.containers = all, trolls
 #Boss.containers = all, bosss
@@ -58,7 +59,7 @@ Tiles.containers = all, tiles
 Title.containers = all, titles
 Health.containers = all, healths
 Weapon.containers = all, weapons
-Spork.containers = all, sproks
+Spork.containers = all, sporks
 
 world = 1
 screenx = 1
@@ -138,7 +139,7 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_a:
                     player.go("left")
-
+                    
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     player.go("stop up")
@@ -198,21 +199,19 @@ while True:
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
-        playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
-        playerHitsWolfs = pygame.sprite.spritecollide(player, wolfs, False)
-        #weaponHitsBugs = pygame.sprite.spritecollide(weapon, bugs, False)
+        playerHitsEnemies = pygame.sprite.spritecollide(player, enemies, False)
+        weaponsHitsEnemies = pygame.sprite.groupcollide(weapons, enemies, True, False)
 
         for impassable in playerHitsImpassables:
             player.impassableCollide(impassable)
 
-        for bug in playerHitsBugs:
-            player.bugCollide(bug)
-
-        for wolf in playerHitsWolfs:
-            player.bugCollide(wolf)
-
-        #for bug in weaponHitsBugs:
-            #bug.weaponCollide(weapon)
+        for enemy in playerHitsEnemies:
+            player.bugCollide(enemy)
+    
+        for weapon in weaponsHitsEnemies:
+            for enemy in weaponsHitsEnemies[weapon]:
+                enemy.weaponCollide(weapon)
+                
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
