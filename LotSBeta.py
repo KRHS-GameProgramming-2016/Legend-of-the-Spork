@@ -1,5 +1,6 @@
 import sys, math, pygame, random
 
+from Weapon import *
 from Player import *
 from Bug import *
 from Wolf import *
@@ -14,7 +15,7 @@ from Shop import *
 from Title import *
 from BackgroundItems import *
 from Health import *
-from Weapon import *
+
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -42,10 +43,12 @@ tiles = pygame.sprite.Group()
 titles = pygame.sprite.Group()
 healths = pygame.sprite.Group()
 weapons = pygame.sprite.Group()
+sporks = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
 
 Player.containers = all, players
-Bug.containers = all, bugs
-Wolf.containers = all, wolfs
+Bug.containers = all, bugs, enemies
+Wolf.containers = all, wolfs, enemies
 #Bandit.containers = all, bandits
 #Troll.containers = all, trolls
 #Boss.containers = all, bosss
@@ -53,13 +56,17 @@ Impassables.containers = all, impassables
 Shop.containers = all, shops, interactables, impassables
 BackgroundItems.containers = all, backgrounditems
 Tiles.containers = all, tiles
-Title.containers = all, tiles
+Title.containers = all, titles
 Health.containers = all, healths
 Weapon.containers = all, weapons
+Spork.containers = all, sporks
 
 world = 1
 screenx = 1
 screeny = 1
+
+px = screenx
+py = screeny
 
 while True:
     menu = True
@@ -132,7 +139,7 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_a:
                     player.go("left")
-
+                    
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     player.go("stop up")
@@ -152,13 +159,16 @@ while True:
                 if event.key == pygame.K_a:
                     player.go("stop left")
 
+            if event.type == pygame.MOUSEMOTION:
+                pygame.mouse.set_visible(False)
+
             if players.sprites <= 0:
                 menu = False
                 controls = False
                 end = True
 
-        all.update(gameSize, 
-                   player.health, 
+        all.update(gameSize,
+                   player.health,
                    player.attacking)
 
         if player.screenCollide(gameSize):
@@ -189,14 +199,19 @@ while True:
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
-        playerHitsBugs = pygame.sprite.spritecollide(player, bugs, False)
+        playerHitsEnemies = pygame.sprite.spritecollide(player, enemies, False)
+        weaponsHitsEnemies = pygame.sprite.groupcollide(weapons, enemies, True, False)
 
         for impassable in playerHitsImpassables:
             player.impassableCollide(impassable)
 
-        for bug in playerHitsBugs:
-            player.bugCollide(bug)
-
+        for enemy in playerHitsEnemies:
+            player.bugCollide(enemy)
+    
+        for weapon in weaponsHitsEnemies:
+            for enemy in weaponsHitsEnemies[weapon]:
+                enemy.weaponCollide(weapon)
+                
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)

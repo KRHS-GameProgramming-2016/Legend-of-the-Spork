@@ -17,6 +17,8 @@ class Bug(pygame.sprite.Sprite):
 
         self.didBounceX = False
         self.didBounceY = False
+        self.hp = 3
+        self.living = True
 
         self.state = "right"
         self.prevState = "right"
@@ -38,7 +40,12 @@ class Bug(pygame.sprite.Sprite):
         self.move()
         self.animate()
         self.screenCollide(screenSize)
+        print self.hp
+        if self.hp == 0:
+            self.living = False
 
+        if self.living == False:
+            self.kill()
     def move(self):
         self.didBounceX = False
         self.didBounceY = False
@@ -116,6 +123,10 @@ class Bug(pygame.sprite.Sprite):
         self.speedy = 0
         self.didBounceY = True
         other.hit = True
+        
+    def weaponCollide(self, other):
+        self.decideDirection()
+        self.hp -= other.damage
 
     def dist(self, pt):
         x = pt[0] - self.rect.right
