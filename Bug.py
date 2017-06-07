@@ -123,10 +123,36 @@ class Bug(pygame.sprite.Sprite):
         self.speedy = 0
         self.didBounceY = True
         other.hit = True
-        
+
     def weaponCollide(self, other):
         self.decideDirection()
         self.hp -= other.damage
+        
+        knockback = 64
+        xdiff = self.rect.center[0] - other.rect.center[0]
+        ydiff = self.rect.center[1] - other.rect.center[1]
+        
+        self.speedx = 0
+        self.speedy = 0
+        
+        if xdiff >= ydiff:
+            if xdiff >= 0:
+                self.speedx = knockback
+                self.hp -= 1
+            else:
+                self.speedx = -knockback
+                self.hp -= 1
+        else:
+            if ydiff >= 0:
+                self.speedy = knockback
+                self.hp -= 1
+            else:
+                self.speedy = -knockback
+                self.hp -= 1
+        self.move()
+        self.decideDirection()
+        
+        
 
     def dist(self, pt):
         x = pt[0] - self.rect.right

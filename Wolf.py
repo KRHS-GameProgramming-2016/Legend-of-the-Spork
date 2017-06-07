@@ -17,13 +17,15 @@ class Wolf(pygame.sprite.Sprite):
 
         self.didBounceX = False
         self.didBounceY = False
+        self.hp = 3
+        self.living = True
 
         self.state = "right"
         self.prevState = "right"
 
         self.frame = 0
         self.animationTimer = 0
-        self.animationTimerMax = 5#.3 * 60 #seconds * 60 fps
+        self.animationTimerMax = 5 #.3 * 60 #seconds * 60 fps
         self.images = self.imagesRight
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = pos)
@@ -31,13 +33,19 @@ class Wolf(pygame.sprite.Sprite):
 
         self.decideDirection()
         self.hit = False
+        self.animate()
 
     def update(self, *args):
         screenSize = args[0]
         self.move()
         self.animate()
         self.screenCollide(screenSize)
+        print self.hp
+        if self.hp == 0:
+            self.living = False
 
+        if self.living == False:
+            self.kill()
     def move(self):
         self.didBounceX = False
         self.didBounceY = False
@@ -101,8 +109,48 @@ class Wolf(pygame.sprite.Sprite):
         screenHeight = screenSize[1]
         if self.rect.top < 0 or self.rect.bottom > screenHeight:
             self.speedy = 0
+            self.decideDirection()
         if self.rect.left < 0 or self.rect.right > screenHeight:
             self.speedx = 0
+            self.decideDirection()
+
+    def playerCollide(self, other):
+        self.speedx = -self.speedx
+        self.speedy = -self.speedy
+        self.move()
+        self.speedx = 0
+        self.didBounceX = True
+        self.speedy = 0
+        self.didBounceY = True
+        other.hit = True
+
+    def weaponCollide(self, other):
+        self.decideDirection()
+        self.hp -= other.damage
+        
+        knockback = 64
+        xdiff = self.rect.center[0] - other.rect.center[0]
+        ydiff = self.rect.center[1] - other.rect.center[1]
+        
+        self.speedx = 0
+        self.speedy = 0
+        
+        if xdiff >= ydiff:
+            if xdiff >= 0:
+                self.speedx = knockback
+                self.hp -= 1
+            else:
+                self.speedx = -knockback
+                self.hp -= 1
+        else:
+            if ydiff >= 0:
+                self.speedy = knockback
+                self.hp -= 1
+            else:
+                self.speedy = -knockback
+                self.hp -= 1
+        self.move()
+        self.decideDirection()
 
     def dist(self, pt):
         x = pt[0] - self.rect.right
@@ -115,4 +163,3 @@ class Wolf(pygame.sprite.Sprite):
             y += y
         return [x, y]
         return math.sqrt(xDiff**2 + yDiff**2)
-

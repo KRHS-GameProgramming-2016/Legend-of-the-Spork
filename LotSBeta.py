@@ -69,7 +69,7 @@ px = screenx
 py = screeny
 
 while True:
-    menu = True
+    menu = False
     controls = True
     end = False
     Title("Res/Background/Controls copy.png", size)
@@ -200,7 +200,7 @@ while True:
         playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
         playerHitsEnemies = pygame.sprite.spritecollide(player, enemies, False)
-        weaponsHitsEnemies = pygame.sprite.groupcollide(weapons, enemies, True, False)
+        weaponsHitsEnemies = pygame.sprite.groupcollide(weapons, enemies, False, False)
 
         for impassable in playerHitsImpassables:
             player.impassableCollide(impassable)

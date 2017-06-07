@@ -27,10 +27,10 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = False
         self.didBounceY = False
 
-        
+
         self.health = health
         self.living = True
-        
+
 
         self.frame = 0
         self.animationTimer = 0
@@ -41,11 +41,11 @@ class Player(pygame.sprite.Sprite):
         self.maxFrame = len(self.images) - 1
 
         self.animate()
-        
+
         self.hit = False
         self.hitTimer = 0
         self.hitTimerMax = 1*60 #second * 60fps
-        
+
         self.attacking = False
         self.attackTimer = 0
         self.attackTimerMax = .5*60 #second * 60fps
@@ -54,23 +54,23 @@ class Player(pygame.sprite.Sprite):
         screenSize = args[0]
         self.move()
         self.animate()
-        
+
         if self.hit:
             if self.hitTimer < self.hitTimerMax:
                 self.hitTimer += 1
             else:
                 self.hitTimer = 0
                 self.hit = False
-        
+
         if self.attacking:
             if self.attackTimer < self.attackTimerMax:
                 self.attackTimer += 1
             else:
                 self.attackTimer = 0
                 self.attacking = False
-       
+
         if self.health <= 0:
-            self.living = False    
+            self.living = False
         #self.screenCollide(screenSize)
 
     def move(self):
@@ -168,14 +168,14 @@ class Player(pygame.sprite.Sprite):
         self.didBounceX = True
         self.speedy = 0
         self.didBounceY = True
-        
+
     def attack(self):
         if not self.attacking:
             self.attacking = True
             Weapon(self.rect.center, self.state)
             self.speedx = 0
             self.speedy = 0
-        
+
 
 
     def bugCollide(self, other):
@@ -191,6 +191,6 @@ class Player(pygame.sprite.Sprite):
                 self.speedx = 0
                 self.speedy = 0
                 other.decideDirection()
-                
+
                 if self.health <= 0:
                     self.living = False
