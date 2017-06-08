@@ -97,10 +97,10 @@ class Level():
             for x,c in enumerate(line):
 
 
-                if c in "$" :       #Spork
-                    Spork(64,
-                           [x*self.tileSize + self.tileSize/2,
-                            y*self.tileSize + self.tileSize/2])
+                #if c in "$" :       #Spork
+                    #Spork(64,
+                           #[x*self.tileSize + self.tileSize/2,
+                            #y*self.tileSize + self.tileSize/2])
                 if c in "q" :       #Bug
                     Bug(1,
                            [x*self.tileSize + self.tileSize/2,
@@ -129,13 +129,13 @@ class Level():
                             #y*self.tileSize + self.tileSize/2],
                            #self.tileSize)
 
-                #if c in "t" :       #Boss
-                    #[Impassables("boulder",
-                           #[x*self.tileSize + self.tileSize/2,
-                            #y*self.tileSize + self.tileSize/2],
-                           #self.tileSize)
+                if c in "&":       #Boss
+                    Boss(3,
+                           [x*self.tileSize + self.tileSize/2,
+                            y*self.tileSize + self.tileSize/2],
+                           self.tileSize*2)
 
-                if c in "s" :       #Shop
+                if c in "s":       #Shop
                     Shop(64,
                            [x*self.tileSize + self.tileSize/2,
                             y*self.tileSize + self.tileSize/2])

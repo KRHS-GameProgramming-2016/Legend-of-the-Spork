@@ -5,7 +5,7 @@ from Player import *
 from Bug import *
 from Wolf import *
 #from Troll import *
-#from Boss import *
+from Boss import *
 from LevelLoader import *
 #from Spork import *
 #from HUD import *
@@ -34,7 +34,7 @@ bugs = pygame.sprite.Group()
 wolfs = pygame.sprite.Group()
 #bandits = pygame.sprite.Group()
 #trolls = pygame.sprite.Group()
-#bosss = pygame.sprite.Group()
+bosss = pygame.sprite.Group()
 impassables = pygame.sprite.Group()
 interactables = pygame.sprite.Group()
 shops = pygame.sprite.Group()
@@ -51,7 +51,7 @@ Bug.containers = all, bugs, enemies
 Wolf.containers = all, wolfs, enemies
 #Bandit.containers = all, bandits
 #Troll.containers = all, trolls
-#Boss.containers = all, bosss
+Boss.containers = all, bosss, enemies
 Impassables.containers = all, impassables
 Shop.containers = all, shops, interactables, impassables
 BackgroundItems.containers = all, backgrounditems
@@ -197,9 +197,10 @@ while True:
             health = Health([width*.20, 750], player.health)
 
         playerHitsImpassables = pygame.sprite.spritecollide(player, impassables, False)
-        playerHitsIntearactables = pygame.sprite.spritecollide(player, interactables, False)
+        playerHitsInteractables = pygame.sprite.spritecollide(player, interactables, False)
         playerHitsShops = pygame.sprite.spritecollide(player, shops, False)
         playerHitsEnemies = pygame.sprite.spritecollide(player, enemies, False)
+        playerHitsBosss = pygame.sprite.spritecollide(player, bosss, False)
         weaponsHitsEnemies = pygame.sprite.groupcollide(weapons, enemies, False, False)
 
         for impassable in playerHitsImpassables:
@@ -207,6 +208,9 @@ while True:
 
         for enemy in playerHitsEnemies:
             player.bugCollide(enemy)
+            
+        for boss in playerHitsBosss:
+            player.bossCollide(boss)
     
         for weapon in weaponsHitsEnemies:
             for enemy in weaponsHitsEnemies[weapon]:

@@ -1,7 +1,7 @@
 import pygame, sys, math, random
 
 class Health(pygame.sprite.Sprite):
-    def __init__(self, pos, value=3):
+    def __init__(self, pos, value=5):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         self.oneLifeImage = pygame.image.load("Res/Health/hearts1life.png")
@@ -10,7 +10,7 @@ class Health(pygame.sprite.Sprite):
         self.fourLivesImage = pygame.image.load("Res/Health/hearts4lives.png")
         self.fiveLivesImage = pygame.image.load("Res/Health/hearts5lives.png")
 
-        self.image = self.threeLivesImage
+        self.image = self.fiveLivesImage
         self.rect = self.image.get_rect(center = pos)
         self.value = value
 

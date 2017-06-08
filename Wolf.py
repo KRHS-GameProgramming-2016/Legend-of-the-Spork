@@ -40,7 +40,6 @@ class Wolf(pygame.sprite.Sprite):
         self.move()
         self.animate()
         self.screenCollide(screenSize)
-        print self.hp
         if self.hp == 0:
             self.living = False
 

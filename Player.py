@@ -3,7 +3,7 @@ from Weapon import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0], health=3):
+    def __init__(self,  size=64, speed=0, maxSpeed=5, pos=[0,0], health=5):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.size = size
         self.imagesLeft = [pygame.transform.scale(pygame.image.load("Res/Player/Player side.png"), [self.size,self.size]),
@@ -194,3 +194,17 @@ class Player(pygame.sprite.Sprite):
 
                 if self.health <= 0:
                     self.living = False
+                    
+    def bossCollide(self, other):
+        if self.rect.right > other.rect.left and self.rect.left < other.rect.right:
+            if self.rect.bottom > other.rect.top and self.rect.top < other.rect.bottom:
+                if not self.hit:
+                    self.hit = True
+                    self.health -= 3
+                self.speedx = -self.speedx
+                self.speedy = -self.speedy
+                self.didBounceX = True
+                self.didBounceY = True
+                self.speedx = 0
+                self.speedy = 0
+                other.decideDirection()

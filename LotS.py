@@ -69,7 +69,7 @@ px = screenx
 py = screeny
 
 while True:
-    menu = True
+    menu = False
     controls = True
     end = False
     Title("Res/Background/Controls copy.png", size)
@@ -139,7 +139,7 @@ while True:
                     player.go("right")
                 if event.key == pygame.K_a:
                     player.go("left")
-
+                    
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     player.go("stop up")
@@ -207,11 +207,11 @@ while True:
 
         for enemy in playerHitsEnemies:
             player.bugCollide(enemy)
-
+    
         for weapon in weaponsHitsEnemies:
             for enemy in weaponsHitsEnemies[weapon]:
                 enemy.weaponCollide(weapon)
-
+                
 
         bgColor = r,g,b = 0,0,0
         screen.fill(bgColor)
